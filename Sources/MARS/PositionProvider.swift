@@ -58,7 +58,7 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     @Published var showMarkerFoundedToast: Bool = false
     @Published var showChangeFloorToast: Bool = false
 
-    let delegateMultiplexer: ARSCNDelegateMultiplexer = ARSCNDelegateMultiplexer()
+    var delegateMultiplexer: ARSCNDelegateMultiplexer = ARSCNDelegateMultiplexer()
 
     var showManagerCamera: Bool = false
     
@@ -91,7 +91,7 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
         self.referenceMarkersByLocation = referenceMarkersByLocation
         self.delegateMultiplexer.addDelegate(self.delegate)
         
-        self.arSCNView = ARSCNViewContainer(arSCNView: arSCNView, delegate: delegateMultiplexer)
+        self.arSCNView = ARSCNViewContainer(arSCNView: arSCNView, delegate: delegate)
         self.scnFloorView = SCNViewContainer()
         self.scnRoomView = SCNViewContainer()
         
