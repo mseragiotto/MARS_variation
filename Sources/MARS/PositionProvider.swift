@@ -218,7 +218,7 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     // MARK: - Riconoscimento e Cambio Room/Floor
 
     /// Cerca la room corrispondente a un marker e la gestisce
-    func findRoomFromMarker(markerName: String) {
+    public func findRoomFromMarker(markerName: String) {
         for floor in self.building.floors {
             for room in floor.rooms {
                 if room.referenceMarkers.contains(where: { $0.name == markerName }) {
