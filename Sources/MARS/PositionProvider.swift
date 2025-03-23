@@ -20,7 +20,8 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     public var id: UUID = UUID()
     public let building: Building
 
-    let delegate: ARSCNDelegate = ARSCNDelegate()
+    public let delegate: ARSCNDelegate = ARSCNDelegate()
+    private var roomChangeCallbacks: [(String) -> Void] = []
     let motionManager = CMMotionManager()
     
     var changeStateBool: Bool = false
@@ -50,7 +51,7 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     @Published var scnFloorView: SCNViewContainer = SCNViewContainer()
     @Published var activeRoomPlanimetry: SCNViewContainer? = nil
 
-    @Published var activeRoom: Room = Room()
+    @Published public var activeRoom: Room = Room()
     @Published var prevRoom: Room = Room()
     @Published var activeFloor: Floor = Floor()
     
@@ -555,7 +556,9 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     }
     
     public func onRoomChanged(_ newRoom: Room) {
-        // TODO: Gestire il cambio di room
+        for callback in roomChangeCallbacks {
+            callback(newRoom.name)
+        }
     }
     
     public func onFloorChanged(_ newFloor: Floor) {
@@ -672,6 +675,15 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+
+    public func getCurrentRoom() -> String {
+        return activeRoom.name
+    }
+
+    public func registerForRoomChanges(_ callback: @escaping (String) -> Void) {
+        // Store the callback and call it when the room changes
+        self.roomChangeCallbacks.append(callback)
     }
 }
 
