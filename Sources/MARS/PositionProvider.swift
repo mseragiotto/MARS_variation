@@ -40,7 +40,7 @@ public class PositionProvider: PositionSubject, LocationObserver, @preconcurrenc
     
     
     @Published var position: simd_float4x4 = simd_float4x4(0)
-    @Published var trackingState: String = ""
+    @Published public var trackingState: String = ""
     @Published var nodeContainedIn: String = ""
     @Published var roomMatrixActive: String = ""
     @Published var switchingRoom: Bool = false
